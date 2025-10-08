@@ -8,7 +8,7 @@ if (!isset($_SESSION['Movies'])) {
         '33333333' => ['name' => 'Spiderman4', 'year' => 1900, 'punctuation' => 3],
         '44444444' => ['name' => 'Spiderman5', 'year' => 2000, 'punctuation' => 2],
         '55555555' => ['name' => 'Spiderman6', 'year' => 2010, 'punctuation' => 0]
-    ];
+    ]; 
 }
 
 // Process form submission
@@ -18,7 +18,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $year = strip_tags($_POST['year']);
     $punctuation = ($_POST['punctuation']);
 
-    // Basic validation (optional)
+    // Clean and format each input
+    function clean_text($text) {
+        $text = preg_replace('/[^a-z0-9 ]/i', '', $text); 
+        $text = strtolower($text);           
+        $text = ucwords($text); 
+        return trim($text);
+    }
+
+     $isan = clean_text($isan);
+    $name = clean_text($name);
+    $year = clean_text($year);
+    // Basic validation
     if ($isan && $name && $year && $punctuation) {
         $_SESSION['Movies'][$isan] = [
             'name' => $name,
@@ -27,6 +38,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ];
     }
 }
+
+       
 ?>
 
 <!DOCTYPE html>
