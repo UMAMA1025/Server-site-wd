@@ -7,6 +7,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         // Save color in a cookie (valid for 30 days)
         setcookie("theme_color", $color, time() + (30 * 24 * 60 * 60));
     }
+
+    if(isset($_POST['name'])){
+        $name  = $_POST['name'];
+        setcookie("name" , $name, time() + (30 * 24 * 60 * 60) );
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -52,6 +57,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         <input type="submit" value="Submit">
     </form>
+
+    <?php
+    if(isset($_POST['name'])){
+        echo"<h4>Name:</h4>  " . htmlspecialchars($name);
+    }
+    ?>
 
 
 </body>
