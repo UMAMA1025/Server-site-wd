@@ -48,19 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <option value="typescript" <?= $language === 'typescript' ? 'selected' : '' ?>>TypeScript</option>
         </select><br><br>
 
-        <select name="language" id="language">
-            <option value="php" <?= $language === 'php' ? 'selected' : '' ?>>PHP</option>
-            <option value="java" <?= $language === 'java' ? 'selected' : '' ?>>Java</option>
-            <option value="sql" <?= $language === 'sql' ? 'selected' : '' ?>>SQL</option>
-            <option value="javascript" <?= $language === 'javascript' ? 'selected' : '' ?>>JavaScript</option>
-            <option value="cpp" <?= $language === 'cpp' ? 'selected' : '' ?>>C++</option>
-            <option value="python" <?= $language === 'python' ? 'selected' : '' ?>>Python</option>
-            <option value="ruby" <?= $language === 'ruby' ? 'selected' : '' ?>>Ruby</option>
-            <option value="csharp" <?= $language === 'csharp' ? 'selected' : '' ?>>C#</option>
-            <option value="go" <?= $language === 'go' ? 'selected' : '' ?>>Go</option>
-            <option value="swift" <?= $language === 'swift' ? 'selected' : '' ?>>Swift</option>
-            <option value="typescript" <?= $language === 'typescript' ? 'selected' : '' ?>>TypeScript</option>
-        </select><br><br>
+     
 
         <input type="submit" value="Submit">
     </form>
