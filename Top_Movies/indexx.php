@@ -8,13 +8,14 @@
                 display: flex;
                 flex-direction: column;
                 align-items:center;
-              
+                background: linear-gradient(to right, #db8585ff, #9ea2ceff);
             }
             .main{
                 justify-content:center;
-                background-color: #e788a634;
+                background-color: #cc5a7e34;
                 margin: 100px;
                 padding:10px;
+                border: 1px solid black;
               
             }
         </style>
