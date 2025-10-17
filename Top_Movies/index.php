@@ -1,15 +1,11 @@
 <?php
-session_start();
-
-// Initialize movies if not set
-if (!isset($_SESSION['Movies'])) {
-    $_SESSION['Movies'] = [
-        '12345678' => ['name' => 'Superman', 'year' => '1948', 'punctuation' => '8'],
-        '23456789' => ['name' => 'Superman', 'year' => '1978', 'punctuation' => '9'],
-        '34567890' => ['name' => 'Batman vs Superman', 'year' => '2016', 'punctuation' => '7'],
-        '45678901' => ['name' => 'Superman & Lois', 'year' => '2021', 'punctuation' => '8'],
-    ];
-}
+// Movies list
+$Movies = [
+    '12345678' => ['name' => 'Superman', 'year' => '1948', 'punctuation' => '8'],
+    '23456789' => ['name' => 'Superman', 'year' => '1978', 'punctuation' => '9'],
+    '34567890' => ['name' => 'Batman vs Superman', 'year' => '2016', 'punctuation' => '7'],
+    '45678901' => ['name' => 'Superman & Lois', 'year' => '2021', 'punctuation' => '8'],
+];
 
 $message = '';
 
@@ -22,26 +18,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($isan === '' && $name === '') {
         $message = "⚠️ Please enter ISAN or Name.";
     } elseif ($isan === '') {
+        // Search by name
         $found = [];
-        foreach ($_SESSION['Movies'] as $id => $movie) {
+        foreach ($Movies as $id => $movie) {
             if (stripos($movie['name'], $name) !== false) {
                 $found[] = "{$movie['name']} from {$movie['year']}.";
             }
         }
         $message = $found ? implode("<br>", $found) : "No movies found.";
-    } elseif (isset($_SESSION['Movies'][$isan])) {
+    } elseif (isset($Movies[$isan])) {
+        // ISAN found
         if ($name === '') {
-            unset($_SESSION['Movies'][$isan]);
-            $message = "🗑️ Movie deleted.";
+            unset($Movies[$isan]);
+            $message = "🗑️ Movie deleted (temporarily, only for this request).";
         } elseif ($year && $punctuation) {
-            $_SESSION['Movies'][$isan] = ['name'=>$name, 'year'=>$year, 'punctuation'=>$punctuation];
-            $message = "$isan   Movie updated.✅";
+            $Movies[$isan] = ['name'=>$name, 'year'=>$year, 'punctuation'=>$punctuation];
+            $message = "✅ Movie updated.";
         } else {
             $message = "⚠️ Fill all fields to update.";
         }
     } elseif (preg_match('/^\d{8}$/', $isan)) {
+        // New ISAN
         if ($name && $year && $punctuation) {
-            $_SESSION['Movies'][$isan] = ['name'=>$name, 'year'=>$year, 'punctuation'=>$punctuation];
+            $Movies[$isan] = ['name'=>$name, 'year'=>$year, 'punctuation'=>$punctuation];
             $message = "✅ Movie added.";
         } else {
             $message = "⚠️ Fill all fields to add.";
@@ -55,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Movie Manager</title>
+    <title>Movie Manager (No Storage)</title>
     <meta charset="utf-8">
     <style>
         body {
@@ -71,6 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             border: 3px solid #a1a4c0ff;
             margin-top: 20px;
             border-radius: 10px;
+            background: white;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         table {
             border-collapse: collapse;
-        
+            background: white;
             border-radius: 10px;
             overflow: hidden;
             margin-top: 20px;
@@ -100,29 +100,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     </style>
 </head>
-    <body>
+<body>
 
-        <h1>List of Movies</h1>
+    <h1>List of Movies</h1>
 
-        <table>
-            <tr><th>ISAN</th><th>Name</th><th>Year</th><th>Punctuation</th></tr>
-            <?php foreach($_SESSION['Movies'] as $id=>$m): ?>
-            <tr>
+    <table>
+        <tr><th>ISAN</th><th>Name</th><th>Year</th><th>Punctuation</th></tr>
+        <?php foreach($Movies as $id => $m): ?>
+        <tr>
             <td><?= htmlspecialchars($id) ?></td>
             <td><?= htmlspecialchars($m['name']) ?></td>
             <td><?= htmlspecialchars($m['year']) ?></td>
             <td><?= htmlspecialchars($m['punctuation']) ?></td>
-            </tr>
-            <?php endforeach; ?>
-        </table>
+        </tr>
+        <?php endforeach; ?>
+    </table>
 
-        <?php if ($message): ?>
-            <div class="message"><?= $message ?></div>
-        <?php endif; ?>
+    <?php if ($message): ?>
+        <div class="message"><?= $message ?></div>
+    <?php endif; ?>
 
-        <div class="divv">
-            <h2>Add / Update / Delete Movie</h2>
-            <form method="post">
+    <div class="divv">
+        <h2>Add / Update / Delete Movie</h2>
+    
+        <form method="post">
             ISAN: <input type="text" name="isan"><br>
             Name: <input type="text" name="name"><br>
             Year: <input type="text" name="year"><br>
@@ -136,8 +137,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <option value="5">5</option>
             </select><br>
             <input type="submit" value="Submit">
-            </form>
-        </div>
+        </form>
+    </div>
 
-    </body>
+</body>
 </html>
