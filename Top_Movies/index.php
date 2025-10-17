@@ -1,3 +1,9 @@
+<?php 
+$manager = new MovieManager();
+$message = $manager->manageCases();
+$Movies = $manager->movies;
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
