@@ -4,10 +4,10 @@
 
         public function __construct(){
             $this -> movies = [
-    '12345678' => new Movie('12345678', 'Superman','1948','4'),
-    '23456789' => new Movie('23456789', 'Superman','1978', '4'),
-    '34567890' => new Movie('34567890', 'Batman vs Superman','2016','3'),
-    '45678901' => new Movie('45678901', 'Superman & Lois', '2021','1'), ];
+            '12345678' => new Movie('12345678', 'Superman','1948','4'),
+            '23456789' => new Movie('23456789', 'Superman','1978', '4'),
+            '34567890' => new Movie('34567890', 'Batman vs Superman','2016','3'),
+            '45678901' => new Movie('45678901', 'Superman & Lois', '2021','1'), ];
 
         }
 
