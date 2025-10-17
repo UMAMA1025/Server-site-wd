@@ -12,6 +12,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $name  = $_POST['name'];
         setcookie("name" , $name, time() + (30 * 24 * 60 * 60) );
     }
+
+    if(isset($_POST['language'])){
+        $language = $_POST['language'];
+        setcookie("language", $language, time() + (30 * 24 * 60 * 60));
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -58,11 +63,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <input type="submit" value="Submit">
     </form>
 
-    <?php
-    if(isset($_POST['name'])){
-        echo"<h4>Name:</h4>  " . htmlspecialchars($name);
-    }
-    ?>
+     <?php if ($name || $language): ?>
+       <h3>Youe information</h3>
+       <?php if($name): ?>
+        <p><Strong>Name: </Strong><?= htmlspecialchars($name) ?></p>
+        <?php endif; ?>
+        <?php if($language): ?>
+        <p><strong>Your favorite programming language: </strong> <?= htmlspecialchars(ucfirst($language)) ?></p>
+        <?php endif; ?>
+    <?php endif; ?>
 
 
 </body>
